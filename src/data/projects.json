@@ -20,5 +20,26 @@
       "TOMCAT",
       "NGINX"
     ]
+  },
+  {
+    "title": "Terraform-Provisioned CI/CD Platform on AWS",
+    "description": "Designed and implemented a fully automated end-to-end CI/CD platform on AWS using Infrastructure as Code and DevOps best practices.\n\nTerraform provisions the entire infrastructure including networking, security groups, IAM roles, ECS services, ECR repositories, load balancing, and supporting AWS resources.\n\nA GitHub webhook triggers a Jenkins Declarative Pipeline that performs source code checkout, Maven build, unit testing, Checkstyle validation, SonarQube static analysis, Quality Gate enforcement, Docker image creation, image push to Amazon ECR, and automated deployment to Amazon ECS.\n\nThe platform integrates Slack notifications for deployment visibility and uses IAM least-privilege access control for secure interactions between Jenkins, ECR, and ECS.\n\nThis project demonstrates Infrastructure as Code, CI/CD automation, containerization, cloud deployment, code quality enforcement, and production-grade DevOps workflows.",
+    "github": "https://github.com/7azeeem/vprofile-end-to-end-cicd",
+    "link": null,
+    "image": "/projects/cicd-architecture.jpg",
+    "tags": [
+      "TERRAFORM",
+      "IAC",
+      "JENKINS",
+      "SONARQUBE",
+      "DOCKER",
+      "AMAZON_ECR",
+      "AMAZON_ECS",
+      "AWS_IAM",
+      "GITHUB",
+      "SLACK",
+      "MAVEN",
+      "CICD"
+    ]
   }
 ]
