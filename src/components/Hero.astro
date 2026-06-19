@@ -6,6 +6,7 @@ import LinkedInIcon from "@/components/icons/LinkedIn.astro"
 import MailIcon from "@/components/icons/Mail.astro"
 import SparklesIcon from "@/components/icons/Sparkles.astro"
 import SocialPill from "@/components/SocialPill.astro"
+import FileTextIcon from "@/components/icons/FileText.astro"
 ---
 
 <div class="max-w-xl">
@@ -62,6 +63,15 @@ import SocialPill from "@/components/SocialPill.astro"
     <SocialPill href="https://github.com/7azeeem">
       <GitHubIcon class="size-4" />
       GitHub
+    </SocialPill>
+    <SocialPill 
+      href="/resume/Adel_Ashraf_DevOps_Engineer_CV.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Open Resume"
+    >
+      <FileTextIcon class="size-4" />
+      Resume
     </SocialPill>
   </nav>
 </div>
