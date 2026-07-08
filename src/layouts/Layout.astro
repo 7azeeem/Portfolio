@@ -15,7 +15,7 @@ const { description, title, ogDescription, twitterDescription } = Astro.props;
 
 const resolvedOgDescription = ogDescription ?? description;
 const resolvedTwitterDescription = twitterDescription ?? description;
-const canonicalUrl = new URL(Astro.url.pathname, "https://adelashraf.dev").toString();
+const canonicalUrl = new URL(Astro.url.pathname, "https://3del.vercel.app").toString();
 ---
 
 <!doctype html>
@@ -37,7 +37,7 @@ const canonicalUrl = new URL(Astro.url.pathname, "https://adelashraf.dev").toStr
     <meta property="og:site_name" content="Adel Ashraf" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={resolvedOgDescription} />
-    <meta property="og:image" content="https://adelashraf.dev/adel.webp" />
+    <meta property="og:image" content="https://3del.vercel.app/adel.webp" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Adel Ashraf – DevOps Engineer" />
@@ -47,7 +47,7 @@ const canonicalUrl = new URL(Astro.url.pathname, "https://adelashraf.dev").toStr
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={resolvedTwitterDescription} />
-    <meta name="twitter:image" content="https://adelashraf.dev/adel.webp" />
+    <meta name="twitter:image" content="https://3del.vercel.app/adel.webp" />
     <meta name="twitter:image:alt" content="Adel Ashraf – DevOps Engineer" />
 
     <meta name="darkreader-lock" />
