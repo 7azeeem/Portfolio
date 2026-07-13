@@ -1,0 +1,59 @@
+---
+interface Props {
+  id: string
+  name: string
+  label: string
+  type?: "text" | "email"
+  placeholder?: string
+  autocomplete?: string
+  textarea?: boolean
+  rows?: number
+  minLength?: number
+}
+
+const {
+  id,
+  name,
+  label,
+  type = "text",
+  placeholder,
+  autocomplete,
+  textarea = false,
+  rows = 6,
+  minLength,
+} = Astro.props
+
+const fieldClass =
+  "w-full rounded-xl border border-gray-300/80 bg-white/70 px-4 py-3 text-gray-900 shadow-sm outline-none transition duration-200 placeholder:text-gray-500/70 focus:border-yellow-400/70 focus:ring-4 focus:ring-yellow-400/20 dark:border-white/10 dark:bg-gray-900/70 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-yellow-400/60 dark:focus:ring-yellow-400/10"
+---
+
+<div>
+  <label for={id} class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+    {label}
+  </label>
+  {
+    textarea ? (
+      <textarea
+        id={id}
+        name={name}
+        rows={rows}
+        minlength={minLength}
+        required
+        placeholder={placeholder}
+        class={`${fieldClass} resize-y min-h-36`}
+      />
+    ) : (
+      <input
+        id={id}
+        name={name}
+        type={type}
+        autocomplete={autocomplete}
+        minlength={minLength}
+        required
+        placeholder={placeholder}
+        class={fieldClass}
+      />
+    )
+  }
+  <p class="mt-2 hidden text-sm text-red-500 dark:text-red-300" data-error-for={name}></p>
+</div>

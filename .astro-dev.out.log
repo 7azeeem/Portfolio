@@ -1,17 +1,21 @@
 
-> porfolio-dev@0.0.1 dev C:\Users\admin\Desktop\New folder\porfolio\porfolio.dev
-> astro dev "--host" "127.0.0.1" "--port" "4321"
-
-▶ Astro collects anonymous usage data.
-  This information helps us improve Astro.
-  Run "astro telemetry disable" to opt-out.
-  https://astro.build/telemetry
+> porfolio-dev@0.0.1 dev
+> astro dev --host 127.0.0.1
 
 
- astro  v4.4.5 ready in 1773 ms
+ astro  v4.4.5 ready in 1672 ms
 
 ┃ Local    http://127.0.0.1:4321/
 
-19:17:52 watching for file changes...
-19:18:09 [200] / 16ms
-19:18:40 [200] / 8ms
+09:30:34 watching for file changes...
+09:31:16 [200] / 43ms
+09:31:26 [watch] src/components/Contact.astro
+09:31:26 [200] / 21ms
+09:32:25 [vite] changed tsconfig file detected: D:\repo\Portfolio\tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.
+09:32:25 Configuration file updated. Restarting...
+09:32:27 [200] / 86ms
+09:33:19 [watch] src/layouts/Layout.astro
+09:33:19 [200] / 12ms
+09:34:20 [watch] src/components/Header.astro
+09:35:21 [200] / 39ms
+09:35:49 [200] / 15ms

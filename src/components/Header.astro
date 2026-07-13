@@ -20,9 +20,7 @@ const navItems = [
   {
     title: "Contact",
     label: "contact",
-    url: "https://www.linkedin.com/in/3del/",
-    target: "_blank",
-    rel: "noopener noreferrer",
+    url: "/#contact",
   },
 ]
 ---
@@ -39,8 +37,6 @@ const navItems = [
           class="nav-link relative text-xs sm:text-sm block px-1.5 sm:px-3 py-2 sm:py-1.5 rounded-full transition-colors duration-200 hover:text-yellow-500 dark:hover:text-yellow-400"
           aria-label={link.label}
           href={link.url}
-          target={"target" in link ? link.target : undefined}
-          rel={"rel" in link ? link.rel : undefined}
         >
           {link.title}
         </a>
@@ -106,16 +102,45 @@ const navItems = [
     @apply dark:bg-gray-900/80 bg-white/60;
   }
 
+  :global(.dark) .header-nav {
+    animation-name: nav-appear-dark;
+  }
+
   .nav-link.text-yellow-500 {
     @apply font-semibold;
   }
 
   @keyframes nav-appear {
     0% {
-      @apply dark:bg-gray-900/0 bg-white/0 border-transparent shadow-none;
+      background-color: rgba(255, 255, 255, 0);
+      border-color: transparent;
+      box-shadow: none;
     }
     to {
-      @apply shadow-lg ring-1 backdrop-blur-md ring-white/10 dark:ring-white/5 border-gray-200/20 dark:border-white/5;
+      background-color: rgba(255, 255, 255, 0.6);
+      border-color: rgba(229, 231, 235, 0.2);
+      box-shadow:
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -4px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+    }
+  }
+
+  @keyframes nav-appear-dark {
+    0% {
+      background-color: rgba(17, 24, 39, 0);
+      border-color: transparent;
+      box-shadow: none;
+    }
+    to {
+      background-color: rgba(17, 24, 39, 0.8);
+      border-color: rgba(255, 255, 255, 0.05);
+      box-shadow:
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -4px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
     }
   }
 </style>
