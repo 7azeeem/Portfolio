@@ -99,10 +99,30 @@ import SocialPill from "@/components/SocialPill.astro"
 <script>
   import emailjs from "@emailjs/browser"
 
-  const config = {
-    serviceId: import.meta.env.PUBLIC_EMAILJS_SERVICE_ID,
-    templateId: import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID,
-    publicKey: import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY,
+  const getEmailConfig = () => ({
+    serviceId: import.meta.env.PUBLIC_EMAILJS_SERVICE_ID?.trim() ?? "",
+    templateId: import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID?.trim() ?? "",
+    publicKey: import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY?.trim() ?? "",
+  })
+
+  let emailjsInitialized = false
+
+  const ensureEmailjsReady = () => {
+    const config = getEmailConfig()
+    const missingKeys = Object.entries(config)
+      .filter(([, value]) => !value)
+      .map(([key]) => key)
+
+    if (missingKeys.length > 0) {
+      return { config, isReady: false }
+    }
+
+    if (!emailjsInitialized) {
+      emailjs.init({ publicKey: config.publicKey })
+      emailjsInitialized = true
+    }
+
+    return { config, isReady: true }
   }
 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -206,7 +226,9 @@ import SocialPill from "@/components/SocialPill.astro"
       const { isValid, values } = validate()
       if (!isValid) return
 
-      if (!config.serviceId || !config.templateId || !config.publicKey) {
+      const { config, isReady } = ensureEmailjsReady()
+
+      if (!isReady) {
         showToast("Email service is not configured yet.", "error")
         return
       }
