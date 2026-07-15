@@ -3,7 +3,10 @@ import ExperienceItem from "./ExperienceItem.astro"
 import experience from "@/data/experience.json"
 ---
 
-<ol class="relative mt-16" aria-label="Work experience">
+<ol
+  class="relative mt-16 before:absolute before:bottom-0 before:left-[13px] before:top-0 before:block before:border-l-2 before:border-black/20 before:content-[''] dark:before:border-white/15"
+  aria-label="Work experience"
+>
   {
     experience.map((exp, i) => (
       <li class="anim-fade-in" style={`animation-delay: ${i * 150}ms`}>
