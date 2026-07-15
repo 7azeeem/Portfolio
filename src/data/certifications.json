@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Decoding DevOps - Advanced Projects with AI",
+    "issuer": "Udemy",
+    "issued": "Oct 2025",
+    "expires": "Jul 2026",
+    "credentialUrl": "https://udemy-certificate.s3.amazonaws.com/pdf/UC-30d5c2a8-1cac-490a-a877-75030625038d.pdf",
+    "credentialId": "UC-30d5c2a8-1cac-490a-a877-75030625038d",
+    "logoText": "Ud",
+    "logo": "/logos/udemy.png",
+    "image": "/certifications/decoding-devops-advanced-projects-ai.png",
+    "accent": "from-rose-500/20 via-amber-400/10 to-yellow-400/20",
+    "description": "Hands-on DevOps course focused on Linux, AWS, GCP, Docker, Kubernetes, Terraform, Ansible, Jenkins, GitHub Actions, GitOps, ArgoCD, Helm, Python automation, and modern monitoring and observability. Completed real-world projects covering cloud infrastructure, CI/CD, Kubernetes deployments, and production-ready DevOps workflows with AI-assisted automation."
+  },
+  {
+    "title": "LFS162: Introduction to DevOps and Site Reliability Engineering",
+    "issuer": "The Linux Foundation",
+    "credentialUrl": "https://www.credly.com/badges/d31b130c-6631-4e8f-beeb-445f66b6528f/public_url",
+    "credentialId": "d31b130c-6631-4e8f-beeb-445f66b6528f",
+    "image": "/certifications/lfs162-devops-sre.png",
+    "logoText": "LF",
+    "logo": "/logos/linux-foundation.jpg",
+    "accent": "from-sky-500/20 via-yellow-300/10 to-cyan-400/20",
+    "description": "Familiar with DevOps and SRE practices, cloud computing, Kubernetes, Infrastructure as Code, Continuous Integration, Continuous Deployment, and observability systems that help maintain software quality."
+  },
+  {
+    "title": "LFS158: Introduction to Kubernetes",
+    "issuer": "The Linux Foundation",
+    "credentialUrl": "https://www.credly.com/badges/f69ce76a-56ad-483e-9f77-4af3eb2b6481/public_url",
+    "credentialId": "f69ce76a-56ad-483e-9f77-4af3eb2b6481",
+    "image": "/certifications/lfs158-introduction-to-kubernetes.jpg",
+    "logoText": "LF",
+    "logo": "/logos/linux-foundation.jpg",
+    "accent": "from-blue-500/20 via-cyan-300/10 to-indigo-400/20",
+    "description": "Can set up and manage a Kubernetes cluster using Minikube, deploy applications, understand Kubernetes architecture and components, manage volumes, configure network services, and engage with the Kubernetes community."
+  },
+  {
+    "title": "LFS101: Introduction to Linux",
+    "issuer": "The Linux Foundation",
+    "credentialUrl": "https://www.credly.com/badges/51363cd7-355e-4c02-b81b-c5cdd1d3cc73/public_url",
+    "credentialId": "51363cd7-355e-4c02-b81b-c5cdd1d3cc73",
+    "image": "/certifications/lfs101-introduction-to-linux.jpg",
+    "logoText": "LF",
+    "logo": "/logos/linux-foundation.jpg",
+    "accent": "from-cyan-500/20 via-blue-300/10 to-emerald-400/20",
+    "description": "Gained skills to navigate and manage configurations across major Linux distributions using graphical interfaces and the command line, with system startup, file operations, network management, basic scripting, and local security fundamentals."
+  },
+  {
+    "title": "Cloud GreenOps for AI",
+    "issuer": "Greenpixie",
+    "issued": "Jul 2026",
+    "credentialUrl": "https://www.credly.com/badges/9fdfe2eb-e3c2-4f7f-baa4-f2e7dc966ee8/public_url",
+    "credentialId": "9fdfe2eb-e3c2-4f7f-baa4-f2e7dc966ee8",
+    "image": "/certifications/cloud-greenops-for-ai-badge.png",
+    "logoText": "Gp",
+    "logo": "/logos/greenpixie.png",
+    "accent": "from-emerald-500/20 via-teal-300/10 to-violet-400/20",
+    "description": "Validates understanding of applying GreenOps practices to AI workloads: measuring AI usage and emissions, improving efficiency, and reducing environmental impact through caching, batching, model selection, and token optimization."
+  },
+  {
+    "title": "Claude 101",
+    "issuer": "Anthropic",
+    "credentialUrl": "https://verify.skilljar.com/c/2yuyho592edj",
+    "image": "/certifications/claude-101.jpg",
+    "logoText": "An",
+    "logo": "/logos/anthropic.jpg",
+    "accent": "from-orange-500/20 via-stone-300/10 to-yellow-400/20",
+    "description": "Completed Claude 101 by Anthropic Education. Learned fundamentals of working with Claude, effective prompting techniques, AI capabilities and limitations, and best practices for responsible AI usage."
+  },
+  {
+    "title": "AI Fluency: AI Capabilities & Limitations",
+    "issuer": "Anthropic",
+    "credentialUrl": "https://verify.skilljar.com/c/sqv2h3hwj8ph",
+    "image": "/certifications/ai-fluency-capabilities-limitations.jpg",
+    "logoText": "An",
+    "logo": "/logos/anthropic.jpg",
+    "accent": "from-orange-500/20 via-purple-300/10 to-cyan-400/20",
+    "description": "Completed Anthropic AI Fluency course covering AI capabilities, limitations, responsible AI usage, and practical applications of large language models."
+  }
+]

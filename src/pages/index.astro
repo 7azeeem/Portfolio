@@ -4,9 +4,11 @@ import Layout from "@/layouts/Layout.astro"
 import AboutMe from "@/components/AboutMe.astro"
 import Briefcase from "@/components/icons/Briefcase.astro"
 import CodeDots from "@/components/icons/CodeDots.astro"
+import Certificate from "@/components/icons/Certificate.astro"
 import Experience from "@/components/Experience.astro"
 import UserHeart from "@/components/icons/UserHeart.astro"
 import Projects from "@/components/Projects.astro"
+import Certifications from "@/components/Certifications.astro"
 import SectionContainer from "@/components/SectionContainer.astro"
 import Hero from "@/components/Hero.astro"
 import TitleSection from "@/components/TitleSection.astro"
@@ -39,6 +41,14 @@ import Footer from "@/components/Footer.astro"
         Projects
       </TitleSection>
       <Projects />
+    </SectionContainer>
+
+    <SectionContainer id="certifications">
+      <TitleSection>
+        <Certificate class="size-8" />
+        Licenses & Certifications
+      </TitleSection>
+      <Certifications />
     </SectionContainer>
 
     <SectionContainer id="about-me">
