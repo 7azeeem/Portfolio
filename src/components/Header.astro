@@ -55,34 +55,49 @@ const navItems = [
 
 <script>
   document.addEventListener("astro:page-load", () => {
-    const sections = document.querySelectorAll("section")
+    const sections = document.querySelectorAll("section[id]")
     const navItems = document.querySelectorAll("header nav a")
 
-    const callback = (entries: any[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          navItems.forEach((item) => {
-            if (item.getAttribute("aria-label") == entry.target.id) {
-              item.classList.add("text-yellow-500", "dark:text-yellow-400", "bg-yellow-400/10")
-              item.classList.remove("text-gray-600", "dark:text-gray-300")
-            } else {
-              item.classList.remove("text-yellow-500", "dark:text-yellow-400", "bg-yellow-400/10")
-              item.classList.add("text-gray-600", "dark:text-gray-300")
-            }
-          })
+    const setActiveSection = () => {
+      const viewportHeight = window.innerHeight
+      let activeSection: Element | null = null
+      let maxVisibleHeight = 0
+
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect()
+        const visibleHeight = Math.max(
+          0,
+          Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0)
+        )
+
+        if (visibleHeight > maxVisibleHeight) {
+          maxVisibleHeight = visibleHeight
+          activeSection = section
+        }
+      })
+
+      navItems.forEach((item) => {
+        if (item.getAttribute("aria-label") == activeSection?.id) {
+          item.classList.add("text-yellow-500", "dark:text-yellow-400", "bg-yellow-400/10")
+          item.classList.remove("text-gray-600", "dark:text-gray-300")
+        } else {
+          item.classList.remove("text-yellow-500", "dark:text-yellow-400", "bg-yellow-400/10")
+          item.classList.add("text-gray-600", "dark:text-gray-300")
         }
       })
     }
 
-    const observer = new IntersectionObserver(callback, {
+    const observer = new IntersectionObserver(setActiveSection, {
       root: null,
       rootMargin: "0px",
-      threshold: 0.3,
+      threshold: [0, 0.25, 0.5, 0.75, 1],
     })
 
     sections.forEach((section) => {
       observer.observe(section)
     })
+
+    setActiveSection()
 
     document.onvisibilitychange = () => {
       if (document.visibilityState === "hidden") {
