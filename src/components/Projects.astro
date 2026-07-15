@@ -4,6 +4,7 @@ import NextJS from "./icons/NextJS.astro"
 import Tailwind from "./icons/Tailwind.astro"
 import ExternalLink from "./icons/ExternalLink.astro"
 import LinkButton from "./LinkButton.astro"
+import SocialPill from "./SocialPill.astro"
 import projectsData from "@/data/projects.json"
 
 const TAGS: Record<string, { name: string; class: string; icon?: any }> = {
@@ -156,10 +157,10 @@ const PROJECTS = projectsData.map((project) => ({
     <p class="mt-3 text-gray-700 dark:text-gray-400 text-pretty whitespace-pre-line">{description}</p>
     <footer class="flex items-center mt-4 gap-x-4">
       {github && (
-        <LinkButton href={github}>
+        <SocialPill href={github}>
           <GitHub class="size-5" />
           GitHub
-        </LinkButton>
+        </SocialPill>
       )}
       {link && (
         <LinkButton href={link}>

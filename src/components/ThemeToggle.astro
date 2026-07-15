@@ -73,10 +73,10 @@ const THEMES = ["Light", "Dark", "System"]
 
   const getThemePreference = (): ThemePreference => {
     if (typeof localStorage !== "undefined") {
-      return (localStorage.getItem(THEME_STORAGE_KEY) as ThemePreference) ?? SYSTEM
+      return (localStorage.getItem(THEME_STORAGE_KEY) as ThemePreference) ?? DARK
     }
 
-    return matchMedia.matches ? DARK : LIGHT
+    return DARK
   }
 
   const updateIcon = (themePreference: ThemePreference): void => {

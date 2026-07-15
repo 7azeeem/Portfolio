@@ -54,6 +54,14 @@ const canonicalUrl = new URL(Astro.url.pathname, "https://3del.vercel.app").toSt
     <meta name="twitter:image:alt" content="Adel Ashraf – DevOps Engineer" />
 
     <meta name="darkreader-lock" />
+    <script is:inline>
+      const themePreference = localStorage.getItem("theme") ?? "dark"
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+      document.documentElement.classList.toggle(
+        "dark",
+        themePreference === "dark" || (themePreference === "system" && prefersDark)
+      )
+    </script>
     <ViewTransitions />
   </head>
 
