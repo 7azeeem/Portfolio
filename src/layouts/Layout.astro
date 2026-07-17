@@ -105,6 +105,14 @@ const canonicalUrl = new URL(Astro.url.pathname, "https://3del.vercel.app").toSt
         );
       }
 
+      .dark .site-background {
+        background-image: radial-gradient(
+          ellipse 80% 80% at 50% -20%,
+          rgba(251, 191, 36, 0.08),
+          rgba(0, 0, 0, 0)
+        );
+      }
+
       @media (prefers-reduced-motion: reduce) {
         html {
           scroll-behavior: auto;
