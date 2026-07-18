@@ -3,6 +3,7 @@
     "title": "Lift & Shift Migration – On-Prem to AWS",
     "description": "Designed and implemented a Lift & Shift migration strategy to move a traditional on-premises application stack to AWS while preserving the existing application architecture.\n\nThe solution includes Route 53 for DNS management, an Application Load Balancer for traffic distribution, EC2 instances running NGINX and Tomcat within an Auto Scaling Group, and dedicated private subnets for application and data tiers. Supporting services include MySQL, RabbitMQ, and Memcached, with Amazon CloudWatch used for monitoring and operational visibility.\n\nThe project demonstrates AWS networking, high availability design, traffic management, security group configuration, monitoring, and infrastructure architecture principles commonly used in production environments.",
     "github": "https://github.com/7azeeem/vprofile-project",
+    "linkedin": "https://www.linkedin.com/posts/3del_devops-aws-cloudmigration-activity-7407424907208359936-SLZH?utm_source=share&utm_medium=member_desktop&rcm=ACoAAF7qXh8BYR3EKbw0T2v2HcFfTqXgL5G_2gk",
     "link": null,
     "image": "/projects/lift-and-shift.jpg",
     "tags": [
@@ -25,6 +26,7 @@
     "title": "Terraform-Provisioned CI/CD Platform on AWS",
     "description": "Designed and implemented a fully automated end-to-end CI/CD platform on AWS using Infrastructure as Code and DevOps best practices.\n\nTerraform provisions the entire infrastructure including networking, security groups, IAM roles, ECS services, ECR repositories, load balancing, and supporting AWS resources.\n\nA GitHub webhook triggers a Jenkins Declarative Pipeline that performs source code checkout, Maven build, unit testing, Checkstyle validation, SonarQube static analysis, Quality Gate enforcement, Docker image creation, image push to Amazon ECR, and automated deployment to Amazon ECS.\n\nThe platform integrates Slack notifications for deployment visibility and uses IAM least-privilege access control for secure interactions between Jenkins, ECR, and ECS.\n\nThis project demonstrates Infrastructure as Code, CI/CD automation, containerization, cloud deployment, code quality enforcement, and production-grade DevOps workflows.",
     "github": "https://github.com/7azeeem/vprofile-iac-driven-cicd-platform",
+    "linkedin": "https://www.linkedin.com/posts/3del_end-to-end-cicd-pipeline-project-jenkins-activity-7427697105000878080-QUrY?utm_source=share&utm_medium=member_desktop&rcm=ACoAAF7qXh8BYR3EKbw0T2v2HcFfTqXgL5G_2gk",
     "link": null,
     "image": "/projects/terraform-provisioned-jenkins-cicd-architecture.jpeg",
     "tags": [
