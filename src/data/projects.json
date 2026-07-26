@@ -47,8 +47,8 @@
   {
     "title": "AWS Refactoring – Managed Services Migration",
     "description": "Refactored the VProfile application from a traditional Lift & Shift deployment model into a cloud-native AWS architecture using managed services.\n\nMigrated self-managed infrastructure to AWS managed services including Amazon Elastic Beanstalk, Amazon RDS, Amazon ElastiCache, Amazon MQ, CloudFront, Route 53, CloudWatch, Auto Scaling, and Application Load Balancer.\n\nDesigned a scalable, highly available, and production-oriented architecture that reduces operational overhead while improving deployment simplicity, monitoring, scalability, and overall reliability.\n\nThe project demonstrates practical experience with AWS PaaS services, cloud architecture design, application deployment, networking, monitoring, and managed infrastructure.",
-    "github": "https://github.com/7azeeem/vprofile-aws-refactoring",
-    "linkedin": "https://www.linkedin.com/in/3del/",
+    "github": "https://github.com/7azeeem/vprofile-refactoring.git",
+    "linkedin": "https://www.linkedin.com/posts/3del_aws-devops-cloudarchitecture-share-7417153317388173312-EIjh/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAF7qXh8BYR3EKbw0T2v2HcFfTqXgL5G_2gk",
     "link": null,
     "image": "/projects/aws-refactoring-managed-services-migration.png",
     "imageAlt": "AWS managed services migration architecture diagram for the VProfile application",
