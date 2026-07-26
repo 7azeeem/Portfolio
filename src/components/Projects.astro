@@ -23,6 +23,26 @@ const TAGS: Record<string, { name: string; class: string; icon?: any }> = {
     name: "AWS",
     class: "bg-[#232F3E] text-white",
   },
+  ELASTIC_BEANSTALK: {
+    name: "Elastic Beanstalk",
+    class: "bg-[#86C232] text-black",
+  },
+  AMAZON_RDS: {
+    name: "Amazon RDS",
+    class: "bg-[#527FFF] text-white",
+  },
+  AMAZON_MQ: {
+    name: "Amazon MQ",
+    class: "bg-[#FF4F8B] text-white",
+  },
+  ELASTICACHE: {
+    name: "ElastiCache",
+    class: "bg-[#1F8ACB] text-white",
+  },
+  CLOUDFRONT: {
+    name: "CloudFront",
+    class: "bg-[#8C4FFF] text-white",
+  },
   VPC: {
     name: "VPC",
     class: "bg-[#8C4FFF] text-white",
@@ -111,6 +131,10 @@ const TAGS: Record<string, { name: string; class: string; icon?: any }> = {
     name: "Maven",
     class: "bg-[#C71A22] text-white",
   },
+  JAVA: {
+    name: "Java",
+    class: "bg-[#E76F00] text-white",
+  },
   CICD: {
     name: "CI/CD",
     class: "bg-[#0052CC] text-white",
@@ -129,11 +153,11 @@ const PROJECTS = projectsData.map((project) => ({
 
 <div class="flex flex-col gap-y-16">
   {
-    PROJECTS.map(({ image, title, description, tags, link, github, linkedin }) => (
+    PROJECTS.map(({ image, imageAlt, title, description, tags, link, github, linkedin }) => (
     <article class="flex flex-col space-x-0 space-y-6 group md:flex-row md:space-x-10 md:space-y-0">
   <div class="w-full md:w-1/2">
     <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition-all duration-500 ease-in-out transform shadow-xl overflow-hidden rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-[0_20px_60px_-10px_rgba(251,191,36,0.2)] lg:border lg:border-gray-800 lg:hover:border-yellow-400/30 lg:hover:bg-gray-800/50">
-      <img alt={title} class="w-full h-auto object-contain object-center transition duration-500" loading="lazy" src={image} />
+      <img alt={imageAlt ?? title} class="w-full h-auto object-contain object-center transition duration-500" loading="lazy" src={image} />
       <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden="true"></div>
     </div>
   </div>

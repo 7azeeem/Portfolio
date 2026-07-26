@@ -43,5 +43,29 @@
       "MAVEN",
       "CICD"
     ]
+  },
+  {
+    "title": "AWS Refactoring – Managed Services Migration",
+    "description": "Refactored the VProfile application from a traditional Lift & Shift deployment model into a cloud-native AWS architecture using managed services.\n\nMigrated self-managed infrastructure to AWS managed services including Amazon Elastic Beanstalk, Amazon RDS, Amazon ElastiCache, Amazon MQ, CloudFront, Route 53, CloudWatch, Auto Scaling, and Application Load Balancer.\n\nDesigned a scalable, highly available, and production-oriented architecture that reduces operational overhead while improving deployment simplicity, monitoring, scalability, and overall reliability.\n\nThe project demonstrates practical experience with AWS PaaS services, cloud architecture design, application deployment, networking, monitoring, and managed infrastructure.",
+    "github": "https://github.com/7azeeem/vprofile-aws-refactoring",
+    "linkedin": "https://www.linkedin.com/in/3del/",
+    "link": null,
+    "image": "/projects/aws-refactoring-managed-services-migration.png",
+    "imageAlt": "AWS managed services migration architecture diagram for the VProfile application",
+    "tags": [
+      "AWS",
+      "ELASTIC_BEANSTALK",
+      "AMAZON_RDS",
+      "AMAZON_MQ",
+      "ELASTICACHE",
+      "CLOUDFRONT",
+      "ROUTE53",
+      "CLOUDWATCH",
+      "ALB",
+      "AUTOSCALING",
+      "TOMCAT",
+      "JAVA",
+      "MYSQL"
+    ]
   }
 ]
