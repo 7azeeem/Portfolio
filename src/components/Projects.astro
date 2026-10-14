@@ -309,7 +309,7 @@ const PROJECTS = (projectsData as Project[]).map((project) => ({
     aria-labelledby="lightbox-title"
   >
     <h2 id="lightbox-title" class="sr-only">Expanded project image</h2>
-    <img class="max-h-[82vh] max-w-[92vw] rounded-xl border border-gray-700 object-contain" data-lightbox-image alt="" />
+    <img class="max-h-[82vh] max-w-[92vw] cursor-default rounded-xl border border-gray-700 object-contain" data-lightbox-image alt="" />
     <button
       class="absolute -right-3 -top-3 inline-flex size-10 items-center justify-center rounded-full border border-gray-600 bg-gray-900 text-gray-100 transition hover:border-yellow-400 hover:text-yellow-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 motion-reduce:transition-none"
       type="button"
@@ -396,6 +396,12 @@ const PROJECTS = (projectsData as Project[]).map((project) => ({
   const closeButton = lightbox?.querySelector<HTMLButtonElement>("[data-lightbox-close]")
   let lastLightboxTrigger: HTMLButtonElement | null = null
   let previousBodyOverflow = ""
+
+  // The Projects section can be translated during its scroll reveal. Moving this
+  // fixed overlay to the document body keeps it centered in the viewport.
+  if (lightbox && lightbox.parentElement !== document.body) {
+    document.body.append(lightbox)
+  }
 
   const closeLightbox = () => {
     if (!lightbox || lightbox.dataset.open !== "true") return
