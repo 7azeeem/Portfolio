@@ -17,15 +17,15 @@
     "repositories": [
       {
         "label": "Application & CI/CD",
-        "url": "https://lnkd.in/e2jXuFM6"
+        "url": "https://github.com/7azeeem/vprofile-app"
       },
       {
         "label": "Helm & Argo CD",
-        "url": "https://lnkd.in/egEAD2fz"
+        "url": "https://github.com/7azeeem/vprofile-helm"
       },
       {
         "label": "Terraform Infrastructure",
-        "url": "https://lnkd.in/e-eEFUTt"
+        "url": "https://github.com/7azeeem/vprofile-infra"
       }
     ],
     "linkedin": "https://www.linkedin.com/feed/update/urn:li:activity:7516120688189919232/",

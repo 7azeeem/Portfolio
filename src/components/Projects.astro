@@ -203,7 +203,15 @@ const PROJECTS = (projectsData as Project[]).map((project) => ({
   <div class="w-full md:w-1/2">
     <div class="relative w-full overflow-visible" data-image-viewer={gallery ? true : undefined}>
       <div class:list={["relative flex flex-col items-center col-span-6 row-span-5 transition-all duration-500 ease-in-out transform shadow-xl overflow-hidden rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-[0_20px_60px_-10px_rgba(251,191,36,0.2)] lg:border lg:border-gray-800 lg:hover:border-yellow-400/30 lg:hover:bg-gray-800/50", gallery && "aspect-[5/2] border border-gray-800 bg-transparent"]}>
-        <img alt={imageAlt ?? title} class:list={["w-full h-auto object-contain object-center transition-opacity duration-300 motion-reduce:transition-none", gallery && "h-full", gallery && "opacity-100"]} loading="lazy" src={image} {...(gallery ? { "data-project-image": true, "data-first-src": gallery[0].src, "data-first-alt": gallery[0].alt, "data-second-src": gallery[1].src, "data-second-alt": gallery[1].alt } : {})} />
+        <button
+          type="button"
+          class:list={["block w-full cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-inset", gallery && "h-full"]}
+          data-lightbox-trigger
+          aria-label={`Open enlarged image: ${imageAlt ?? title}`}
+          title="Open enlarged image"
+        >
+          <img alt={imageAlt ?? title} class:list={["w-full h-auto object-contain object-center transition-opacity duration-300 motion-reduce:transition-none", gallery && "h-full", gallery && "opacity-100"]} loading="lazy" src={image} {...(gallery ? { "data-project-image": true, "data-first-src": gallery[0].src, "data-first-alt": gallery[0].alt, "data-second-src": gallery[1].src, "data-second-alt": gallery[1].alt } : {})} />
+        </button>
         <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden="true"></div>
       </div>
       {gallery && (
@@ -286,6 +294,62 @@ const PROJECTS = (projectsData as Project[]).map((project) => ({
   }
 </div>
 
+<div
+  class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-[opacity,background-color,backdrop-filter] duration-300 ease-out motion-reduce:transition-none"
+  data-lightbox
+  data-open="false"
+  aria-hidden="true"
+>
+  <div class="absolute inset-0" data-lightbox-backdrop aria-hidden="true"></div>
+  <section
+    class="relative z-10 flex max-h-[88vh] max-w-[92vw] items-center justify-center opacity-0 scale-95 transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none"
+    data-lightbox-panel
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="lightbox-title"
+  >
+    <h2 id="lightbox-title" class="sr-only">Expanded project image</h2>
+    <img class="max-h-[82vh] max-w-[92vw] rounded-xl border border-gray-700 object-contain" data-lightbox-image alt="" />
+    <button
+      class="absolute -right-3 -top-3 inline-flex size-10 items-center justify-center rounded-full border border-gray-600 bg-gray-900 text-gray-100 transition hover:border-yellow-400 hover:text-yellow-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 motion-reduce:transition-none"
+      type="button"
+      data-lightbox-close
+      aria-label="Close image"
+      title="Close image"
+    >
+      <svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+      </svg>
+    </button>
+  </section>
+</div>
+
+<style>
+  [data-lightbox] {
+    background-color: rgb(0 0 0 / 0%);
+    backdrop-filter: blur(0);
+  }
+
+  [data-lightbox][data-open="true"] {
+    background-color: rgb(0 0 0 / 78%);
+    backdrop-filter: blur(8px);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  [data-lightbox][data-open="true"] [data-lightbox-panel] {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-lightbox],
+    [data-lightbox-panel] {
+      transition: none;
+    }
+  }
+</style>
+
 <script>
   document.querySelectorAll<HTMLElement>("[data-image-viewer]").forEach((viewer) => {
     const image = viewer.querySelector<HTMLImageElement>("[data-project-image]")
@@ -326,6 +390,50 @@ const PROJECTS = (projectsData as Project[]).map((project) => ({
     previous.addEventListener("click", () => updateImage(0))
     next.addEventListener("click", () => updateImage(1))
   })
+
+  const lightbox = document.querySelector<HTMLElement>("[data-lightbox]")
+  const lightboxImage = lightbox?.querySelector<HTMLImageElement>("[data-lightbox-image]")
+  const closeButton = lightbox?.querySelector<HTMLButtonElement>("[data-lightbox-close]")
+  let lastLightboxTrigger: HTMLButtonElement | null = null
+  let previousBodyOverflow = ""
+
+  const closeLightbox = () => {
+    if (!lightbox || lightbox.dataset.open !== "true") return
+
+    lightbox.dataset.open = "false"
+    lightbox.setAttribute("aria-hidden", "true")
+    document.body.style.overflow = previousBodyOverflow
+    lastLightboxTrigger?.focus()
+  }
+
+  if (lightbox && lightboxImage && closeButton) {
+    document.querySelectorAll<HTMLButtonElement>("[data-lightbox-trigger]").forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        const image = trigger.querySelector<HTMLImageElement>("img")
+        if (!image) return
+
+        lastLightboxTrigger = trigger
+        previousBodyOverflow = document.body.style.overflow
+        lightboxImage.src = image.currentSrc || image.src
+        lightboxImage.alt = image.alt
+        lightbox.dataset.open = "true"
+        lightbox.setAttribute("aria-hidden", "false")
+        document.body.style.overflow = "hidden"
+        window.requestAnimationFrame(() => closeButton.focus())
+      })
+    })
+
+    closeButton.addEventListener("click", closeLightbox)
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox || (event.target as HTMLElement).hasAttribute("data-lightbox-backdrop")) {
+        closeLightbox()
+      }
+    })
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeLightbox()
+    })
+  }
 </script>
 
 
