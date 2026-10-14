@@ -1,6 +1,6 @@
 [
   {
-    "title": "VProfile — End-to-End DevOps & GitOps Platform on AWS",
+    "title": "Building an End-to-End DevOps & GitOps Platform on AWS | Terraform, Kubernetes, CI/CD & DevSecOps",
     "description": "Designed and implemented an end-to-end DevOps and GitOps platform that integrates Terraform-based AWS infrastructure provisioning with automated application delivery across three Git repositories.\n\nThe CI/CD pipeline uses GitHub Actions, Maven, Checkstyle, and SonarQube for automated builds, testing, code analysis, and Quality Gate validation. Docker images are scanned with Trivy, and publishing is blocked when HIGH or CRITICAL vulnerabilities are detected. Successful images are pushed to Amazon ECR with commit-based tags, and the Helm repository is updated automatically to trigger GitOps delivery.\n\nHelm manages the application and supporting Kubernetes workloads on Amazon EKS, including MySQL, Memcached, RabbitMQ, Ingress, and persistent database storage using PVCs backed by AWS EBS. Argo CD reconciles the desired state from Git, while AWS Load Balancer Controller and ACM support HTTPS access. Terraform workflows include infrastructure validation, planning, provisioning, drift detection, Slack notifications, and infrastructure cleanup.",
     "image": "/projects/vprofile-gitops-architecture.png",
     "imageAlt": "VProfile end-to-end DevOps and GitOps architecture workflow on AWS",
@@ -28,6 +28,7 @@
         "url": "https://lnkd.in/e-eEFUTt"
       }
     ],
+    "linkedin": "https://www.linkedin.com/feed/update/urn:li:activity:7516120688189919232/",
     "tags": [
       "AWS",
       "TERRAFORM",
