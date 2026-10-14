@@ -201,24 +201,37 @@ const PROJECTS = (projectsData as Project[]).map((project) => ({
     PROJECTS.map(({ image, imageAlt, title, description, tags, link, github, linkedin, gallery, repositories }) => (
     <article class="flex flex-col space-x-0 space-y-6 group md:flex-row md:space-x-10 md:space-y-0">
   <div class="w-full md:w-1/2">
-    <div class="relative w-full">
-      <div class:list={["relative flex flex-col items-center col-span-6 row-span-5 transition-all duration-500 ease-in-out transform shadow-xl overflow-hidden rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-[0_20px_60px_-10px_rgba(251,191,36,0.2)] lg:border lg:border-gray-800 lg:hover:border-yellow-400/30 lg:hover:bg-gray-800/50", gallery && "aspect-video bg-[#161616]"]}>
+    <div class="relative w-full overflow-visible" data-image-viewer={gallery ? true : undefined}>
+      <div class:list={["relative flex flex-col items-center col-span-6 row-span-5 transition-all duration-500 ease-in-out transform shadow-xl overflow-hidden rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-[0_20px_60px_-10px_rgba(251,191,36,0.2)] lg:border lg:border-gray-800 lg:hover:border-yellow-400/30 lg:hover:bg-gray-800/50", gallery && "aspect-[5/2] border border-gray-800 bg-transparent"]}>
         <img alt={imageAlt ?? title} class:list={["w-full h-auto object-contain object-center transition-opacity duration-300 motion-reduce:transition-none", gallery && "h-full", gallery && "opacity-100"]} loading="lazy" src={image} {...(gallery ? { "data-project-image": true, "data-first-src": gallery[0].src, "data-first-alt": gallery[0].alt, "data-second-src": gallery[1].src, "data-second-alt": gallery[1].alt } : {})} />
         <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden="true"></div>
       </div>
       {gallery && (
-        <button
-          class="absolute right-3 top-1/2 z-10 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-gray-600/90 bg-gray-900/95 text-white shadow-lg transition-colors hover:border-yellow-400/60 hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 disabled:cursor-wait md:-right-4 motion-reduce:transition-none"
-          type="button"
-          data-image-toggle
-          aria-label="Show Argo CD application resource tree"
-          aria-pressed="false"
-          title="Show Argo CD application resource tree"
-        >
-          <svg data-toggle-icon class="size-4 transition-transform duration-300 motion-reduce:transition-none" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="m6 3 5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </button>
+        <>
+          <button
+            class="absolute left-1 top-1/2 z-10 inline-flex size-10 -translate-y-1/2 items-center justify-center text-yellow-400 transition hover:-translate-x-0.5 hover:text-yellow-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 disabled:cursor-default disabled:opacity-30 disabled:hover:translate-x-0 motion-reduce:transition-none md:-left-8"
+            type="button"
+            data-image-previous
+            aria-label="Show VProfile GitOps architecture workflow"
+            title="Show VProfile GitOps architecture workflow"
+            disabled
+          >
+            <svg class="size-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m14.5 5-7 7 7 7" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <button
+            class="absolute right-1 top-1/2 z-10 inline-flex size-10 -translate-y-1/2 items-center justify-center text-yellow-400 transition hover:translate-x-0.5 hover:text-yellow-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 disabled:cursor-default disabled:opacity-30 disabled:hover:translate-x-0 motion-reduce:transition-none md:-right-8"
+            type="button"
+            data-image-next
+            aria-label="Show Argo CD application resource tree"
+            title="Show Argo CD application resource tree"
+          >
+            <svg class="size-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m9.5 5 7 7-7 7" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </>
       )}
     </div>
   </div>
@@ -274,47 +287,44 @@ const PROJECTS = (projectsData as Project[]).map((project) => ({
 </div>
 
 <script>
-  document.querySelectorAll<HTMLButtonElement>("[data-image-toggle]").forEach((button) => {
-    const container = button.parentElement
-    const image = container?.querySelector<HTMLImageElement>("[data-project-image]")
-    const icon = button.querySelector<HTMLElement>("[data-toggle-icon]")
+  document.querySelectorAll<HTMLElement>("[data-image-viewer]").forEach((viewer) => {
+    const image = viewer.querySelector<HTMLImageElement>("[data-project-image]")
+    const previous = viewer.querySelector<HTMLButtonElement>("[data-image-previous]")
+    const next = viewer.querySelector<HTMLButtonElement>("[data-image-next]")
 
-    if (!image || !icon) return
+    if (!image || !previous || !next) return
 
-    let showingSecondImage = false
+    let currentImage = 0
     let isTransitioning = false
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     const duration = reducedMotion ? 0 : 300
     const preload = new Image()
     preload.src = image.dataset.secondSrc!
 
-    button.addEventListener("click", () => {
-      if (isTransitioning) return
+    const updateImage = (nextImage: number) => {
+      if (isTransitioning || nextImage === currentImage) return
 
       isTransitioning = true
-      showingSecondImage = !showingSecondImage
-      button.disabled = true
+      previous.disabled = true
+      next.disabled = true
       image.classList.add("opacity-0")
-      icon.classList.toggle("rotate-180", showingSecondImage)
 
       window.setTimeout(() => {
-        image.src = showingSecondImage ? image.dataset.secondSrc! : image.dataset.firstSrc!
-        image.alt = showingSecondImage ? image.dataset.secondAlt! : image.dataset.firstAlt!
-
-        const label = showingSecondImage
-          ? "Show VProfile GitOps architecture workflow"
-          : "Show Argo CD application resource tree"
-        button.setAttribute("aria-label", label)
-        button.setAttribute("aria-pressed", String(showingSecondImage))
-        button.title = label
+        currentImage = nextImage
+        image.src = currentImage === 1 ? image.dataset.secondSrc! : image.dataset.firstSrc!
+        image.alt = currentImage === 1 ? image.dataset.secondAlt! : image.dataset.firstAlt!
 
         window.requestAnimationFrame(() => image.classList.remove("opacity-0"))
         window.setTimeout(() => {
-          button.disabled = false
+          previous.disabled = currentImage === 0
+          next.disabled = currentImage === 1
           isTransitioning = false
         }, duration)
       }, duration / 2)
-    })
+    }
+
+    previous.addEventListener("click", () => updateImage(0))
+    next.addEventListener("click", () => updateImage(1))
   })
 </script>
 
