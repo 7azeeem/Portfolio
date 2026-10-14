@@ -8,6 +8,19 @@ import LinkButton from "./LinkButton.astro"
 import SocialPill from "./SocialPill.astro"
 import projectsData from "@/data/projects.json"
 
+type Project = {
+  title: string
+  description: string
+  image: string
+  imageAlt?: string
+  link?: string | null
+  github?: string | null
+  linkedin?: string | null
+  tags: string[]
+  gallery?: Array<{ src: string; alt: string }>
+  repositories?: Array<{ label: string; url: string }>
+}
+
 const TAGS: Record<string, { name: string; class: string; icon?: any }> = {
   NEXT: {
     name: "Next.js",
@@ -143,9 +156,41 @@ const TAGS: Record<string, { name: string; class: string; icon?: any }> = {
     name: "Infrastructure as Code",
     class: "bg-[#00A98F] text-white",
   },
+  KUBERNETES: {
+    name: "Kubernetes",
+    class: "bg-[#326CE5] text-white",
+  },
+  AMAZON_EKS: {
+    name: "Amazon EKS",
+    class: "bg-[#FF9900] text-black",
+  },
+  GITHUB_ACTIONS: {
+    name: "GitHub Actions",
+    class: "bg-[#2088FF] text-white",
+  },
+  HELM: {
+    name: "Helm",
+    class: "bg-[#0F1689] text-white",
+  },
+  ARGO_CD: {
+    name: "Argo CD",
+    class: "bg-[#EF7B4D] text-black",
+  },
+  TRIVY: {
+    name: "Trivy",
+    class: "bg-[#1904DA] text-white",
+  },
+  CHECKSTYLE: {
+    name: "Checkstyle",
+    class: "bg-[#6B7280] text-white",
+  },
+  AWS_LOAD_BALANCER_CONTROLLER: {
+    name: "AWS Load Balancer Controller",
+    class: "bg-[#8C4FFF] text-white",
+  },
 }
 
-const PROJECTS = projectsData.map((project) => ({
+const PROJECTS = (projectsData as Project[]).map((project) => ({
   ...project,
   tags: project.tags.map((key) => TAGS[key]).filter(Boolean),
 }))
@@ -153,12 +198,23 @@ const PROJECTS = projectsData.map((project) => ({
 
 <div class="flex flex-col gap-y-16">
   {
-    PROJECTS.map(({ image, imageAlt, title, description, tags, link, github, linkedin }) => (
+    PROJECTS.map(({ image, imageAlt, title, description, tags, link, github, linkedin, gallery, repositories }) => (
     <article class="flex flex-col space-x-0 space-y-6 group md:flex-row md:space-x-10 md:space-y-0">
   <div class="w-full md:w-1/2">
-    <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition-all duration-500 ease-in-out transform shadow-xl overflow-hidden rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-[0_20px_60px_-10px_rgba(251,191,36,0.2)] lg:border lg:border-gray-800 lg:hover:border-yellow-400/30 lg:hover:bg-gray-800/50">
-      <img alt={imageAlt ?? title} class="w-full h-auto object-contain object-center transition duration-500" loading="lazy" src={image} />
+    <div class:list={["relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition-all duration-500 ease-in-out transform shadow-xl overflow-hidden rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-[0_20px_60px_-10px_rgba(251,191,36,0.2)] lg:border lg:border-gray-800 lg:hover:border-yellow-400/30 lg:hover:bg-gray-800/50", gallery && "aspect-video bg-[#161616]"]}>
+      <img alt={imageAlt ?? title} class:list={["w-full h-auto object-contain object-center transition duration-200", gallery && "h-full", gallery && "opacity-100"]} loading="lazy" src={image} {...(gallery ? { "data-project-image": true, "data-first-src": gallery[0].src, "data-first-alt": gallery[0].alt, "data-second-src": gallery[1].src, "data-second-alt": gallery[1].alt } : {})} />
       <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden="true"></div>
+      {gallery && (
+        <button
+          class="absolute right-3 top-1/2 z-10 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-full border border-gray-600 bg-gray-900/90 text-xl text-white shadow-lg transition hover:border-yellow-400/60 hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900"
+          type="button"
+          data-image-toggle
+          aria-label="Show Argo CD application resource tree"
+          title="Show Argo CD application resource tree"
+        >
+          <span aria-hidden="true" data-toggle-icon>›</span>
+        </button>
+      )}
     </div>
   </div>
 
@@ -180,7 +236,13 @@ const PROJECTS = projectsData.map((project) => ({
     </ul>
 
     <p class="mt-3 text-gray-700 dark:text-gray-400 text-pretty whitespace-pre-line">{description}</p>
-    <footer class="flex items-center mt-4 gap-x-4">
+    <footer class="flex flex-wrap items-center mt-4 gap-3">
+      {repositories?.map(({ label, url }) => (
+        <SocialPill href={url} aria-label={`Open ${label} repository`}>
+          <GitHub class="size-5" />
+          {label}
+        </SocialPill>
+      ))}
       {github && (
         <SocialPill href={github}>
           <GitHub class="size-5" />
@@ -205,6 +267,35 @@ const PROJECTS = projectsData.map((project) => ({
     ))
   }
 </div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-image-toggle]").forEach((button) => {
+    const container = button.parentElement
+    const image = container?.querySelector<HTMLImageElement>("[data-project-image]")
+    const icon = button.querySelector<HTMLElement>("[data-toggle-icon]")
+
+    if (!image || !icon) return
+
+    let showingSecondImage = false
+    button.addEventListener("click", () => {
+      showingSecondImage = !showingSecondImage
+      image.classList.add("opacity-0")
+
+      window.setTimeout(() => {
+        image.src = showingSecondImage ? image.dataset.secondSrc! : image.dataset.firstSrc!
+        image.alt = showingSecondImage ? image.dataset.secondAlt! : image.dataset.firstAlt!
+        icon.textContent = showingSecondImage ? "‹" : "›"
+
+        const label = showingSecondImage
+          ? "Show VProfile GitOps architecture workflow"
+          : "Show Argo CD application resource tree"
+        button.setAttribute("aria-label", label)
+        button.title = label
+        image.classList.remove("opacity-0")
+      }, 150)
+    })
+  })
+</script>
 
 
 

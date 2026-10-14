@@ -1,5 +1,52 @@
 [
   {
+    "title": "VProfile — End-to-End DevOps & GitOps Platform on AWS",
+    "description": "Designed and implemented an end-to-end DevOps and GitOps platform that integrates Terraform-based AWS infrastructure provisioning with automated application delivery across three Git repositories.\n\nThe CI/CD pipeline uses GitHub Actions, Maven, Checkstyle, and SonarQube for automated builds, testing, code analysis, and Quality Gate validation. Docker images are scanned with Trivy, and publishing is blocked when HIGH or CRITICAL vulnerabilities are detected. Successful images are pushed to Amazon ECR with commit-based tags, and the Helm repository is updated automatically to trigger GitOps delivery.\n\nHelm manages the application and supporting Kubernetes workloads on Amazon EKS, including MySQL, Memcached, RabbitMQ, Ingress, and persistent database storage using PVCs backed by AWS EBS. Argo CD reconciles the desired state from Git, while AWS Load Balancer Controller and ACM support HTTPS access. Terraform workflows include infrastructure validation, planning, provisioning, drift detection, Slack notifications, and infrastructure cleanup.",
+    "image": "/projects/vprofile-gitops-architecture.png",
+    "imageAlt": "VProfile end-to-end DevOps and GitOps architecture workflow on AWS",
+    "gallery": [
+      {
+        "src": "/projects/vprofile-gitops-architecture.png",
+        "alt": "VProfile end-to-end DevOps and GitOps architecture workflow on AWS"
+      },
+      {
+        "src": "/projects/vprofile-argocd-resource-tree.png",
+        "alt": "Argo CD application resource tree showing healthy and synced VProfile Kubernetes workloads"
+      }
+    ],
+    "repositories": [
+      {
+        "label": "Application & CI/CD",
+        "url": "https://lnkd.in/e2jXuFM6"
+      },
+      {
+        "label": "Helm & Argo CD",
+        "url": "https://lnkd.in/egEAD2fz"
+      },
+      {
+        "label": "Terraform Infrastructure",
+        "url": "https://lnkd.in/e-eEFUTt"
+      }
+    ],
+    "tags": [
+      "AWS",
+      "TERRAFORM",
+      "KUBERNETES",
+      "AMAZON_EKS",
+      "GITHUB_ACTIONS",
+      "DOCKER",
+      "AMAZON_ECR",
+      "HELM",
+      "ARGO_CD",
+      "TRIVY",
+      "SONARQUBE",
+      "MAVEN",
+      "CHECKSTYLE",
+      "AWS_LOAD_BALANCER_CONTROLLER",
+      "CLOUDWATCH"
+    ]
+  },
+  {
     "title": "Lift & Shift Migration – On-Prem to AWS",
     "description": "Designed and implemented a Lift & Shift migration strategy to move a traditional on-premises application stack to AWS while preserving the existing application architecture.\n\nThe solution includes Route 53 for DNS management, an Application Load Balancer for traffic distribution, EC2 instances running NGINX and Tomcat within an Auto Scaling Group, and dedicated private subnets for application and data tiers. Supporting services include MySQL, RabbitMQ, and Memcached, with Amazon CloudWatch used for monitoring and operational visibility.\n\nThe project demonstrates AWS networking, high availability design, traffic management, security group configuration, monitoring, and infrastructure architecture principles commonly used in production environments.",
     "github": "https://github.com/7azeeem/vprofile-project",
