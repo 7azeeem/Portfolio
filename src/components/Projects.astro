@@ -210,37 +210,10 @@ const PROJECTS = (projectsData as Project[]).map((project) => ({
           aria-label={`Open enlarged image: ${imageAlt ?? title}`}
           title="Open enlarged image"
         >
-          <img alt={imageAlt ?? title} class:list={["w-full h-auto object-contain object-center transition-opacity duration-300 motion-reduce:transition-none", gallery && "h-full", gallery && "opacity-100"]} loading="lazy" src={image} {...(gallery ? { "data-project-image": true, "data-first-src": gallery[0].src, "data-first-alt": gallery[0].alt, "data-second-src": gallery[1].src, "data-second-alt": gallery[1].alt } : {})} />
+          <img alt={imageAlt ?? title} class:list={["w-full h-auto object-contain object-center transition-opacity motion-reduce:transition-none", gallery ? "h-full opacity-100 duration-150" : "duration-300"]} loading="lazy" src={image} {...(gallery ? { "data-project-image": true, "data-first-src": gallery[0].src, "data-first-alt": gallery[0].alt, "data-second-src": gallery[1].src, "data-second-alt": gallery[1].alt } : {})} />
         </button>
         <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden="true"></div>
       </div>
-      {gallery && (
-        <>
-          <button
-            class="absolute left-1 top-1/2 z-10 inline-flex size-10 -translate-y-1/2 items-center justify-center text-yellow-400 transition hover:-translate-x-0.5 hover:text-yellow-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 disabled:cursor-default disabled:opacity-30 disabled:hover:translate-x-0 motion-reduce:transition-none md:-left-8"
-            type="button"
-            data-image-previous
-            aria-label="Show VProfile GitOps architecture workflow"
-            title="Show VProfile GitOps architecture workflow"
-            disabled
-          >
-            <svg class="size-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="m14.5 5-7 7 7 7" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </button>
-          <button
-            class="absolute right-1 top-1/2 z-10 inline-flex size-10 -translate-y-1/2 items-center justify-center text-yellow-400 transition hover:translate-x-0.5 hover:text-yellow-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 disabled:cursor-default disabled:opacity-30 disabled:hover:translate-x-0 motion-reduce:transition-none md:-right-8"
-            type="button"
-            data-image-next
-            aria-label="Show Argo CD application resource tree"
-            title="Show Argo CD application resource tree"
-          >
-            <svg class="size-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="m9.5 5 7 7-7 7" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </button>
-        </>
-      )}
     </div>
   </div>
 
@@ -351,50 +324,91 @@ const PROJECTS = (projectsData as Project[]).map((project) => ({
 </style>
 
 <script>
+  const slideshowControllers = new WeakMap<HTMLElement, { pause: () => void; resume: () => void; destroy: () => void }>()
+
   document.querySelectorAll<HTMLElement>("[data-image-viewer]").forEach((viewer) => {
     const image = viewer.querySelector<HTMLImageElement>("[data-project-image]")
-    const previous = viewer.querySelector<HTMLButtonElement>("[data-image-previous]")
-    const next = viewer.querySelector<HTMLButtonElement>("[data-image-next]")
 
-    if (!image || !previous || !next) return
+    if (!image || !image.dataset.firstSrc || !image.dataset.secondSrc) return
 
     let currentImage = 0
     let isTransitioning = false
+    let isPaused = false
+    let rotationTimer: number | undefined
+    let fadeTimer: number | undefined
+    let finishTimer: number | undefined
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     const duration = reducedMotion ? 0 : 300
-    const preload = new Image()
-    preload.src = image.dataset.secondSrc!
+    ;[image.dataset.firstSrc, image.dataset.secondSrc].forEach((src) => {
+      const preload = new Image()
+      preload.src = src
+    })
 
-    const updateImage = (nextImage: number) => {
+    const switchImage = () => {
+      const nextImage = currentImage === 0 ? 1 : 0
       if (isTransitioning || nextImage === currentImage) return
 
       isTransitioning = true
-      previous.disabled = true
-      next.disabled = true
       image.classList.add("opacity-0")
 
-      window.setTimeout(() => {
+      fadeTimer = window.setTimeout(() => {
         currentImage = nextImage
         image.src = currentImage === 1 ? image.dataset.secondSrc! : image.dataset.firstSrc!
         image.alt = currentImage === 1 ? image.dataset.secondAlt! : image.dataset.firstAlt!
 
         window.requestAnimationFrame(() => image.classList.remove("opacity-0"))
-        window.setTimeout(() => {
-          previous.disabled = currentImage === 0
-          next.disabled = currentImage === 1
+        finishTimer = window.setTimeout(() => {
           isTransitioning = false
-        }, duration)
+        }, duration / 2)
       }, duration / 2)
     }
 
-    previous.addEventListener("click", () => updateImage(0))
-    next.addEventListener("click", () => updateImage(1))
+    const stopRotation = () => {
+      if (rotationTimer !== undefined) {
+        window.clearInterval(rotationTimer)
+        rotationTimer = undefined
+      }
+    }
+
+    const startRotation = () => {
+      if (reducedMotion || isPaused || document.hidden || rotationTimer !== undefined) return
+      rotationTimer = window.setInterval(switchImage, 7000)
+    }
+
+    const pause = () => {
+      isPaused = true
+      stopRotation()
+    }
+
+    const resume = () => {
+      isPaused = false
+      startRotation()
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) stopRotation()
+      else startRotation()
+    }
+
+    const destroy = () => {
+      stopRotation()
+      if (fadeTimer !== undefined) window.clearTimeout(fadeTimer)
+      if (finishTimer !== undefined) window.clearTimeout(finishTimer)
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
+    }
+
+    slideshowControllers.set(viewer, { pause, resume, destroy })
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+    window.addEventListener("pagehide", destroy, { once: true })
+    document.addEventListener("astro:before-swap", destroy, { once: true })
+    startRotation()
   })
 
   const lightbox = document.querySelector<HTMLElement>("[data-lightbox]")
   const lightboxImage = lightbox?.querySelector<HTMLImageElement>("[data-lightbox-image]")
   const closeButton = lightbox?.querySelector<HTMLButtonElement>("[data-lightbox-close]")
   let lastLightboxTrigger: HTMLButtonElement | null = null
+  let activeSlideshow: { pause: () => void; resume: () => void } | null = null
   let previousBodyOverflow = ""
 
   // The Projects section can be translated during its scroll reveal. Moving this
@@ -409,6 +423,8 @@ const PROJECTS = (projectsData as Project[]).map((project) => ({
     lightbox.dataset.open = "false"
     lightbox.setAttribute("aria-hidden", "true")
     document.body.style.overflow = previousBodyOverflow
+    activeSlideshow?.resume()
+    activeSlideshow = null
     lastLightboxTrigger?.focus()
   }
 
@@ -419,6 +435,9 @@ const PROJECTS = (projectsData as Project[]).map((project) => ({
         if (!image) return
 
         lastLightboxTrigger = trigger
+        const viewer = trigger.closest<HTMLElement>("[data-image-viewer]")
+        activeSlideshow = viewer ? slideshowControllers.get(viewer) ?? null : null
+        activeSlideshow?.pause()
         previousBodyOverflow = document.body.style.overflow
         lightboxImage.src = image.currentSrc || image.src
         lightboxImage.alt = image.alt
